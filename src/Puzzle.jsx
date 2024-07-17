@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import ConfettiExplosion from 'react-confetti-explosion';
+import { useEffect, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import ConfettiExplosion from "react-confetti-explosion";
 
-import './Puzzle.css';
+import "./Puzzle.css";
 
 export default function Puzzle() {
   let width =
@@ -13,12 +13,12 @@ export default function Puzzle() {
   const height = 420;
 
   const posArray = [
-    { id: 1, x: '0px', y: '0px' },
-    { id: 2, x: '0px', y: '-70px' },
-    { id: 3, x: '0px', y: '-140px' },
-    { id: 4, x: '0px', y: '-210px' },
-    { id: 5, x: '0px', y: '-280px' },
-    { id: 6, x: '0px', y: '-350px' },
+    { id: 1, x: "0px", y: "0px" },
+    { id: 2, x: "0px", y: "-70px" },
+    { id: 3, x: "0px", y: "-140px" },
+    { id: 4, x: "0px", y: "-210px" },
+    { id: 5, x: "0px", y: "-280px" },
+    { id: 6, x: "0px", y: "-350px" },
   ];
 
   const [puzzle, updatePuzzle] = useState([]);
@@ -46,8 +46,7 @@ export default function Puzzle() {
 
   const getNewImage = () => {
     if (width > 600) width = 600;
-
-    fetch(`https://picsum.photos/${width}/${height}`).then((result) => {
+    fetch(`https://loremflickr.com/${width}/${height}`).then((result) => {
       updatePuzzle(shuffleArray(posArray));
       setImage(null);
 
@@ -80,59 +79,49 @@ export default function Puzzle() {
   }
 
   return (
-    <div className='Puzzle'>
-      {isSolved(posArray, puzzle) && (
-        <ConfettiExplosion
-          className='confetti'
-          {...mediumProps}
-        />
-      )}
+    <div className="Puzzle">
+      {isSolved(posArray, puzzle) && <ConfettiExplosion className="confetti" {...mediumProps} />}
       {image && (
         <div>
           {isSolved(posArray, puzzle) ? (
             <>
-              <img
-                src={image}
-                alt=''
-              />
+              <img src={image} alt="" />
               <button
-                className='button'
+                className="button"
                 onClick={() => {
                   getNewImage();
-                }}>
+                }}
+              >
                 Ещё!
               </button>
             </>
           ) : (
-            <DragDropContext
-              onDragStart={() => onDragStart(false)}
-              onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId='characters'>
+            <DragDropContext onDragStart={() => onDragStart(false)} onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="characters">
                 {(provided) => (
                   <ul
-                    className='puzzle__container'
+                    className="puzzle__container"
                     {...provided.droppableProps}
-                    ref={provided.innerRef}>
+                    ref={provided.innerRef}
+                  >
                     {puzzle.map(({ id, x, y }, index) => {
                       return (
-                        <Draggable
-                          key={id}
-                          draggableId={String(id)}
-                          index={index}>
+                        <Draggable key={id} draggableId={String(id)} index={index}>
                           {(provided) => (
                             <li
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               id={id}
-                              className='puzzle__box'
-                              draggable='true'
-                              key={id}>
+                              className="puzzle__box"
+                              draggable="true"
+                              key={id}
+                            >
                               <img
                                 src={image || placeholder400}
                                 style={{ objectPosition: `${x} ${y}` }}
-                                alt='oink oink'
-                                className='puzzle-img'
+                                alt="oink oink"
+                                className="puzzle-img"
                               />
                             </li>
                           )}
